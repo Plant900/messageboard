@@ -4,6 +4,7 @@ const authenticate = require('../middleware/authenticate.js')
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const User = require('../models/User.js')
+const Message = require('../models/Message.js')
 
 router.get('/', (req, res) => {
   res.send('To implement: get all messages')
@@ -31,6 +32,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.send('No user with given email exists')
     } else {
+      console.log('User has been logged in')
       return res.send({ message: 'User logged in', user })
     }
   } catch (error) {
@@ -61,7 +63,8 @@ router.post('/signup', async (req, res) => {
     })
 
     await newUser.save()
-    res.send({ message: 'User created', newUser })
+    console.log('New user has been created.')
+    res.send({ message: 'User created', user: newUser })
   } catch (error) {
     console.error(error)
     res.send({ message: 'Internal server error' })
@@ -73,6 +76,33 @@ router.get('/protected', authenticate, (req, res) => {
     res.send('Not authenticated')
   } else if (req.isAuthenticated) {
     res.send('Authenticated')
+  }
+})
+
+router.get('/messages', authenticate, async (req, res) => {
+  if (!req.isAuthenticated) {
+    const messages = await Message.find({ user: { $exists: false } })
+    return res.json(messages.reverse())
+  } else if (req.isAuthenticated) {
+    const messages = await Message.find()
+    return res.json(messages.reverse())
+  }
+})
+
+router.post('/newMessage', authenticate, async (req, res) => {
+  const { text } = req.body
+  if (!text) {
+    return res.send('Text is required.')
+  }
+
+  if (!req.isAuthenticated) {
+    const message = new Message({ text })
+    await message.save()
+    return res.json(message)
+  } else if (req.isAuthenticated) {
+    const message = new Message({ text, user: req.user._id })
+    await message.save()
+    return res.json(message)
   }
 })
 

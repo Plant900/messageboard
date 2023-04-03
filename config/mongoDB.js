@@ -2,9 +2,7 @@ const mongoose = require('mongoose')
 
 let connectDB = () => {
   mongoose
-    .connect(
-      'mongodb+srv://User1:User1@members-only.cdb0j6c.mongodb.net/data?retryWrites=true&w=majority'
-    )
+    .connect(process.env.MONGODB_URI)
     .then(() => {
       console.log('MongoDB connected')
     })

@@ -5,7 +5,7 @@ const authenticate = async (req, res, next) => {
     const bearer = req.headers.authorization
 
     if (!bearer) {
-      return res.json({ error: 'Authorization header missing' })
+      return next()
     }
 
     const sessionID = bearer.substring(7, bearer.length)
@@ -16,6 +16,7 @@ const authenticate = async (req, res, next) => {
       req.isAuthenticated = false
     } else {
       req.isAuthenticated = true
+      req.user = user
     }
     next()
   } catch (error) {
