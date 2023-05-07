@@ -54,3 +54,28 @@ export const NavItem = styled.li`
     }
   }
 `
+export const AboutTooltip = styled.li`
+  position: relative;
+  cursor: default;
+  &:hover {
+    .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+    width: 250px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    transition: opacity 0.3s;
+  }
+`

@@ -29,8 +29,30 @@ router.post('/login', async (req, res) => {
       { sessionID },
       { new: true }
     )
+    console.log('User found in database: ', user)
+
     if (!user) {
       return res.send('No user with given email exists')
+    } else {
+      console.log('User has been logged in')
+      return res.send({ message: 'User logged in', user })
+    }
+  } catch (error) {
+    console.error(error)
+    res.send({ message: 'Internal server error' })
+  }
+})
+
+router.post('/loginWithSessionID', async (req, res) => {
+  try {
+    const { sessionID } = req.body
+    console.log(req.body)
+    console.log('Trying to find user with sessionID: ', sessionID)
+
+    const user = await User.findOne({ sessionID })
+    console.log('User found in database: ', user)
+    if (!user) {
+      return res.send('No user with given session ID exists')
     } else {
       console.log('User has been logged in')
       return res.send({ message: 'User logged in', user })

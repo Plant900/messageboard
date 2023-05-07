@@ -12,6 +12,7 @@ export const useAuth = () => {
     const response = await axios.post('/api/signup', { email, password })
     dispatch({ type: 'LOGIN', payload: response.data })
     if (response.data.user) {
+      localStorage.setItem('sessionID', response.data.user.sessionID)
       navigate('/')
     }
   }
@@ -20,9 +21,24 @@ export const useAuth = () => {
     const response = await axios.post('/api/login', { email, password })
     dispatch({ type: 'LOGIN', payload: response.data })
     if (response.data.user) {
+      localStorage.setItem('sessionID', response.data.user.sessionID)
       navigate('/')
     }
   }
 
-  return { signup, login, isLoading }
+  const loginWithSessionID = async (sessionID) => {
+    const response = await axios.post('/api/loginWithSessionID', { sessionID })
+    dispatch({ type: 'LOGIN', payload: response.data })
+    if (response.data.user) {
+      navigate('/')
+    }
+  }
+
+  const logout = () => {
+    dispatch({ type: 'LOGOUT' })
+    localStorage.removeItem('sessionID')
+    navigate('/')
+  }
+
+  return { signup, login, loginWithSessionID, logout, isLoading }
 }
