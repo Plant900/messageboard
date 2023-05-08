@@ -7,6 +7,6 @@ const connectDB = require('./config/mongoDB.js')()
 app.use(express.json())
 app.use('/api', router)
 
-app.listen(process.env.PORT, () => {
-  console.log('Server listening on port 3000!')
+app.listen(process.env.PORT || 5000, '0.0.0.0', () => {
+  console.log('Server listening')
 })
