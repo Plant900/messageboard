@@ -15,4 +15,6 @@ app.use(
 app.use(express.json())
 app.use('/api', router)
 
+app.get('/', (req, res) => res.type('html').send(html))
+
 app.listen(port, () => console.log(`App listening on port ${port}!`))
