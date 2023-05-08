@@ -2,6 +2,8 @@
 
 This is a message app built with React and Express. The app allows anonymous messages to be posted and read, but only registered users can read messages from other registered users. Registered users may also see anonymous messages.
 
+See the live demo at https://members-only-messageboard.onrender.com/
+
 ## Includes:
 
     - Anonymous messages  
