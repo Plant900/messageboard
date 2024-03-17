@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import api from '../api/axiosConfig.js'
+
 import { useAuthContext } from '../hooks/useAuthContext.jsx'
 import { useAuth } from '../hooks/useAuth.jsx'
 import Header from '../components/Header.jsx'
@@ -19,7 +21,8 @@ export const Home = () => {
   const { loginWithSessionID, isLoading } = useAuth()
 
   const getMessages = async () => {
-    const response = await axios.get('/api/messages', {
+    console.log('Getting messages')
+    const response = await api.get('/api/messages', {
       headers: {
         Authorization: `Bearer ${user?.sessionID}`,
       },
