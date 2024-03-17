@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from './useAuthContext.jsx'
 import axios from 'axios'
-import api from '../api/axiosConfig.js'
 
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(null)
@@ -10,7 +9,7 @@ export const useAuth = () => {
   const { dispatch } = useAuthContext()
 
   const signup = async (email, password) => {
-    const response = await api.post('/api/signup', { email, password })
+    const response = await axios.post('/api/signup', { email, password })
     dispatch({ type: 'LOGIN', payload: response.data })
     if (response.data.user) {
       localStorage.setItem('sessionID', response.data.user.sessionID)
@@ -19,7 +18,7 @@ export const useAuth = () => {
   }
 
   const login = async (email, password) => {
-    const response = await api.post('/api/login', { email, password })
+    const response = await axios.post('/api/login', { email, password })
     dispatch({ type: 'LOGIN', payload: response.data })
     if (response.data.user) {
       localStorage.setItem('sessionID', response.data.user.sessionID)
@@ -28,7 +27,7 @@ export const useAuth = () => {
   }
 
   const loginWithSessionID = async (sessionID) => {
-    const response = await api.post('/api/loginWithSessionID', { sessionID })
+    const response = await axios.post('/api/loginWithSessionID', { sessionID })
     dispatch({ type: 'LOGIN', payload: response.data })
     if (response.data.user) {
       navigate('/')

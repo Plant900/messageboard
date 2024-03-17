@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import api from '../api/axiosConfig.js'
 
 import { FormContainer, Input, Button } from './MessageForm.styles.jsx'
 import { useAuthContext } from '../hooks/useAuthContext.jsx'
@@ -12,7 +11,7 @@ function MessageForm(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const response = await api.post(
+    const response = await axios.post(
       '/api/newMessage',
       { text },
       {
